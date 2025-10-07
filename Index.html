@@ -1,55 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prorobl Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mon Portfolio — Réalisations vidéo</title>
+  <meta name="description" content="Portfolio vidéo — Projets, clips, documentaires et collaborations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-    <header>
-        <h1>Prorobl</h1>
-        <p>Software Developer &amp; Engineer</p>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>
-                Welcome to my portfolio! I am passionate about building scalable software and beautiful user experiences. With experience in web development, I specialize in JavaScript, Python, and modern frameworks.
-            </p>
-        </section>
-        <section id="projects">
-            <h2>Projects</h2>
-            <div class="project-list">
-                <div class="project">
-                    <h3>Portfolio Website</h3>
-                    <p>A personal website to showcase my skills and projects.</p>
-                    <a href="https://github.com/Prorobl/Portfolio" target="_blank">View on GitHub</a>
-                </div>
-                <!-- Add more projects here -->
+  <div class="bg-effects" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#accueil" aria-label="Accueil">TonNom<span class="dot">.</span></a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="#projets">Projets</a>
+      <a href="#apropos">À propos</a>
+      <a href="#contact" class="btn btn-ghost">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="accueil" class="hero section">
+      <div class="container">
+        <p class="overline reveal">Portfolio • Vidéo</p>
+        <h1 class="hero-title reveal">
+          Je crée des images qui racontent <span class="accent">vraiment</span> quelque chose.
+        </h1>
+        <p class="hero-subtitle reveal">
+          Réalisateur / Monteur — clips, documentaires, pubs & projets collaboratifs.
+        </p>
+        <div class="hero-cta reveal">
+          <a href="#projets" class="btn btn-primary">Voir mes projets</a>
+          <a href="#contact" class="btn btn-ghost">Me contacter</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="projets" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title reveal">Sélection de projets</h2>
+          <div class="filters reveal" role="tablist" aria-label="Filtrer par catégorie">
+            <button class="chip active" data-filter="all" role="tab" aria-selected="true">Tous</button>
+            <button class="chip" data-filter="clips" role="tab">Clips</button>
+            <button class="chip" data-filter="documentaires" role="tab">Documentaires</button>
+            <button class="chip" data-filter="publicites" role="tab">Publicités</button>
+            <button class="chip" data-filter="collaborations" role="tab">Collaborations</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <!-- Projet 1 — MP4 local (hover preview) -->
+          <article class="card reveal" data-cat="clips" data-type="mp4" data-src="assets/videos/night-drive.mp4" data-title="Night Drive — Clip" data-year="2024" data-roles="Réa, Montage">
+            <div class="media">
+              <video preload="metadata" muted playsinline loop poster="assets/thumbs/night-drive.jpg"></video>
+              <div class="overlay">
+                <h3>Night Drive — Clip</h3>
+                <p>2024 • Réa, Montage</p>
+              </div>
             </div>
-        </section>
-        <section id="contact">
-            <h2>Contact</h2>
-            <form id="contact-form">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <textarea name="message" placeholder="Your Message" required></textarea>
-                <button type="submit">Send</button>
-            </form>
-            <div id="form-status"></div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Prorobl. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+            <ul class="tags">
+              <li>#Clips</li><li>#Mood</li><li>#Synthwave</li>
+            </ul>
+          </article>
+
+          <!-- Projet 2 — YouTube (lightbox embed) -->
+          <article class="card reveal" data-cat="documentaires" data-type="youtube" data-src="YOUTUBE_VIDEO_ID" data-title="Behind the Scenes — Session Studio" data-year="2023" data-roles="Cadre, Montage">
+            <div class="media">
+              <img src="assets/thumbs/session-studio.jpg" alt="Miniature — Session Studio" loading="lazy">
+              <div class="overlay">
+                <h3>Behind the Scenes — Session Studio</h3>
+                <p>2023 • Cadre, Montage</p>
+              </div>
+            </div>
+            <ul class="tags">
+              <li>#Documentaires</li><li>#BTS</li><li>#Studio</li>
+            </ul>
+          </article>
+
+          <!-- Projet 3 — Vimeo (lightbox embed) -->
+          <article class="card reveal" data-cat="publicites" data-type="vimeo" data-src="VIMEO_VIDEO_ID" data-title="TechWave — Spot 20s" data-year="2024" data-roles="Réa, Étalonnage">
+            <div class="media">
+              <img src="assets/thumbs/techwave.jpg" alt="Miniature — TechWave" loading="lazy">
+              <div class="overlay">
+                <h3>TechWave — Spot 20s</h3>
+                <p>2024 • Réa, Étalonnage</p>
+              </div>
+            </div>
+            <ul class="tags">
+              <li>#Publicités</li><li>#Produit</li><li>#Motion</li>
+            </ul>
+          </article>
+
+          <!-- Projet 4 — Collaboration (exemple) -->
+          <article class="card reveal" data-cat="collaborations" data-type="youtube" data-src="YOUTUBE_VIDEO_ID_2" data-title="Collab — Festival Recap" data-year="2023" data-roles="2e Caméra, DIT">
+            <div class="media">
+              <img src="assets/thumbs/festival.jpg" alt="Miniature — Festival Recap" loading="lazy">
+              <div class="overlay">
+                <h3>Collab — Festival Recap</h3>
+                <p>2023 • 2e Caméra, DIT</p>
+              </div>
+            </div>
+            <ul class="tags">
+              <li>#Collaborations</li><li>#Live</li><li>#Équipe</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="apropos" class="section">
+      <div class="container compact">
+        <h2 class="section-title reveal">À propos</h2>
+        <p class="lead reveal">
+          Je suis un créateur vidéo basé à [Ta ville]. J’aime les images épurées, les récits efficaces
+          et les ambiances nocturnes. Disponible pour alternance (Parcoursup/écoles), freelance et collaborations.
+        </p>
+        <ul class="pill-list reveal">
+          <li>Réalisation</li><li>Montage</li><li>Color grading</li><li>Cadrage</li><li>Motion léger</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container compact">
+        <h2 class="section-title reveal">Contact</h2>
+        <p class="lead reveal">Un projet en tête ? Parlons-en.</p>
+        <div class="contact-actions reveal">
+          <a class="btn btn-primary" href="mailto:ton.email@example.com?subject=Demande%20de%20contact%20portfolio">Me contacter</a>
+          <div class="socials">
+            <a href="https://youtube.com/toncompte" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.6 7.2c-.2-.8-.8-1.3-1.6-1.5C16.9 5.4 12 5.4 12 5.4s-4.9 0-6 .3c-.8.2-1.4.7-1.6 1.5C4.1 8.3 4 9.9 4 12s.1 3.7.4 4.8c.2.8.8 1.3 1.6 1.5 1.1.3 6 .3 6 .3s4.9 0 6-.3c.8-.2 1.4-.7 1.6-1.5.3-1.1.4-2.7.4-4.8s-.1-3.7-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/toncompte" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3zm0 7.7A3 3 0 1 0 9 12a3 3 0 0 0 3 3zm5-8.6a1.1 1.1 0 1 0 1.1 1.1A1.1 1.1 0 0 0 17 6.4z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button class="lightbox-close" aria-label="Fermer">×</button>
+    <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="Lecteur vidéo"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> TonNom — Portfolio. Fait avec ♥ et un peu de café.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
