@@ -1,97 +1,158 @@
-// Année footer
-document.getElementById('year').textContent = new Date().getFullYear();
+// Navigation active link
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
 
-// Révélation au scroll
-const io = new IntersectionObserver((entries)=> {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-// Filtrage de projets
-const chips = document.querySelectorAll('.chip');
-const cards = document.querySelectorAll('.card');
-chips.forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    chips.forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    const f = chip.dataset.filter;
-    cards.forEach(card=>{
-      const show = f === 'all' || card.dataset.cat === f;
-      card.style.display = show ? '' : 'none';
+window.addEventListener('scroll', () => {
+    let current = '';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+        }
     });
-  });
-});
-
-// Hover preview: si la carte contient une vidéo, on la lance/stoppe au survol
-cards.forEach(card=>{
-  const vid = card.querySelector('video');
-  if (vid){
-    card.addEventListener('mouseenter', ()=> {
-      vid.currentTime = 0;
-      const play = vid.play();
-      if (play && typeof play.catch === 'function') play.catch(()=>{ /* ignore autoplay restrictions */ });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').slice(1) === current) {
+            link.classList.add('active');
+        }
     });
-    card.addEventListener('mouseleave', ()=> vid.pause());
-  }
 });
 
-// Lightbox vidéo (mp4, YouTube, Vimeo)
-const lightbox = document.getElementById('lightbox');
-const lightboxContent = lightbox.querySelector('.lightbox-content');
-const closeBtn = lightbox.querySelector('.lightbox-close');
+// Portfolio Filters
+const filterButtons = document.querySelectorAll('.filter-btn');
+const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-function openLightboxFor(card){
-  const type = card.dataset.type;
-  const src  = card.dataset.src;
-  lightbox.classList.add('open');
-  lightbox.setAttribute('aria-hidden','false');
-
-  if (type === 'mp4'){
-    const v = document.createElement('video');
-    v.src = src;
-    v.controls = true;
-    v.playsInline = true;
-    v.autoplay = true;
-    v.style.background = '#000';
-    lightboxContent.innerHTML = '';
-    lightboxContent.appendChild(v);
-  } else if (type === 'youtube'){
-    // Remplace YOUTUBE_VIDEO_ID par l’ID réel (ex: dQw4w9WgXcQ)
-    const id = src;
-    lightboxContent.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
-      title="YouTube video" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-  } else if (type === 'vimeo'){
-    const id = src;
-    lightboxContent.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0"
-      title="Vimeo video" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-  }
-}
-function closeLightbox(){
-  lightbox.classList.remove('open');
-  lightbox.setAttribute('aria-hidden','true');
-  lightboxContent.innerHTML = '';
-}
-closeBtn.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', (e)=> { if (e.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', (e)=> { if (e.key === 'Escape') closeLightbox(); });
-
-// Clic carte -> ouvrir la lightbox
-cards.forEach(card=>{
-  card.addEventListener('click', ()=> openLightboxFor(card));
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        const filterValue = button.getAttribute('data-filter');
+        
+        portfolioItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                item.classList.remove('hide');
+                setTimeout(() => {
+                    item.style.display = 'block';
+                }, 10);
+            } else {
+                item.classList.add('hide');
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 300);
+            }
+        });
+    });
 });
 
-// Parallax doux sur le titre (subtil)
-const heroTitle = document.querySelector('.hero-title');
-let raf = null;
-window.addEventListener('mousemove', (e)=>{
-  if (!heroTitle) return;
-  const { innerWidth:w, innerHeight:h } = window;
-  const dx = (e.clientX / w - 0.5) * 2; // -1..1
-  const dy = (e.clientY / h - 0.5) * 2;
-  if (raf) cancelAnimationFrame(raf);
-  raf = requestAnimationFrame(()=>{
-    heroTitle.style.transform = `translate3d(${dx*6}px, ${dy*4}px, 0)`;
-  });
+// Animated Counter for Stats
+const statNumbers = document.querySelectorAll('.stat-number');
+
+const animateCounter = (element) => {
+    const target = parseInt(element.getAttribute('data-target'));
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+    
+    const updateCounter = () => {
+        current += step;
+        if (current < target) {
+            element.textContent = Math.floor(current) + '+';
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = target + '+';
+        }
+    };
+    
+    updateCounter();
+};
+
+// Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.5,
+    rootMargin: '0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            if (entry.target.classList.contains('stat-number')) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        }
+    });
+}, observerOptions);
+
+statNumbers.forEach(stat => observer.observe(stat));
+
+// Smooth scroll for navigation links
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
+
+// Form submission (you'll need to add your own backend)
+const contactForm = document.querySelector('.contact-form');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Add your form submission logic here
+    alert('Merci pour votre message ! Je vous répondrai bientôt.');
+    contactForm.reset();
+});
+
+// Mobile menu toggle
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinksContainer = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', () => {
+    navLinksContainer.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+});
+
+// Parallax effect for hero background
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroBg = document.querySelector('.hero-bg');
+    
+    if (heroBg) {
+        heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+});
+
+// Add scroll reveal animations
+const revealElements = document.querySelectorAll('.portfolio-item, .stat-card, .about-content');
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, {
+    threshold: 0.15
+});
+
+revealElements.forEach(element => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(50px)';
+    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    revealObserver.observe(element);
 });
